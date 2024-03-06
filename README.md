@@ -5,6 +5,6 @@ Based on create-react-app
 
 To launch the project do next steps:
 
-clone this repisitory to your local mashine.
-open a terminal in root folder
-write npm start.
+1. clone this repisitory to your local mashine.
+1. open a terminal in root folder
+1. write npm start.
