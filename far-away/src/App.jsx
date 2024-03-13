@@ -15,6 +15,13 @@ export default function App() {
   function handleDeleteItem(id) {
     setItems((items) => items.filter((item) => item.id !== id));
   }
+  function toggleItem(id) {
+    setItems((items) =>
+      items.map((item) =>
+        item.id === id ? { ...item, packed: !item.packed } : item
+      )
+    );
+  }
   return (
     <div className="app">
       <header>
@@ -22,7 +29,11 @@ export default function App() {
       </header>
       <main>
         <Form onAddItems={handleItems} />
-        <PackingList list={items} onDeleteItem={handleDeleteItem} />
+        <PackingList
+          list={items}
+          onDeleteItem={handleDeleteItem}
+          onToggleItem={toggleItem}
+        />
       </main>
       <footer className="stats">
         <Stats />
@@ -84,21 +95,31 @@ function Form({ onAddItems }) {
   );
 }
 
-function PackingList({ list, onDeleteItem }) {
+function PackingList({ list, onDeleteItem, onToggleItem }) {
   return (
     <div className="list">
       <ul>
         {list.map((item) => (
-          <PackItem item={item} key={item.id} onDeleteItem={onDeleteItem} />
+          <PackItem
+            item={item}
+            key={item.id}
+            onDeleteItem={onDeleteItem}
+            onToggleItem={onToggleItem}
+          />
         ))}
       </ul>
     </div>
   );
 }
 
-function PackItem({ item, onDeleteItem }) {
+function PackItem({ item, onDeleteItem, onToggleItem }) {
   return (
     <li>
+      <input
+        type="checkbox"
+        value={item.packed}
+        onChange={() => onToggleItem(item.id)}
+      />
       <span style={item.packed ? { textDecoration: "line-through" } : {}}>
         {item.quantity} {item.description}{" "}
         <button onClick={() => onDeleteItem(item.id)}>❌</button>
